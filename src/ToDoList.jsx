@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import ToDoItem from "./ToDoItem";
 
 function ToDoList() {
     const [tasks, setTasks] = useState(["Позавтракать", "Принять душ", "Прогулка с собакой"]);
@@ -21,19 +22,19 @@ function ToDoList() {
     }
 
     function moveTaskUp(index) {
-        if(index > 0){
+        if (index > 0) {
             const updatedTasks = [...tasks];
-            [updatedTasks[index], updatedTasks[index - 1]] = 
-            [updatedTasks[index - 1], updatedTasks[index]];
+            [updatedTasks[index], updatedTasks[index - 1]] =
+                [updatedTasks[index - 1], updatedTasks[index]];
             setTasks(updatedTasks);
         }
     }
 
     function moveTaskDown(index) {
-        if(index < tasks.length - 1){
+        if (index < tasks.length - 1) {
             const updatedTasks = [...tasks];
-            [updatedTasks[index], updatedTasks[index + 1]] = 
-            [updatedTasks[index + 1], updatedTasks[index]];
+            [updatedTasks[index], updatedTasks[index + 1]] =
+                [updatedTasks[index + 1], updatedTasks[index]];
             setTasks(updatedTasks);
         }
     }
@@ -68,33 +69,18 @@ function ToDoList() {
             <ol className="list-group list-group-numbered align-items-center">
                 {
                     tasks.map((task, index) =>
-                        <li key={index} className="list-group-item border-0 d-flex align-items-center gap-2 bg-light mb-3">
-                            <span className="fw-bold">{task}</span>
-                            <div className="d-flex gap-2">
-                                <button
-                                    type="button"
-                                    className="btn btn-outline-danger"
-                                    onClick={() => deleteTask(index)}>
-                                    Удалить
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-outline-primary"
-                                    onClick={() => moveTaskUp(index)}>
-                                    <i class="bi bi-arrow-up"></i>
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-outline-primary"
-                                    onClick={() => moveTaskDown(index)}>
-                                    <i class="bi bi-arrow-down"></i>
-                                </button>
-                            </div>
-                        </li>
+                        <ToDoItem
+                            key={index}
+                            task={task}
+                            index={index}
+                            onDelete={deleteTask}
+                            onMoveUp={moveTaskUp}
+                            onMoveDown={moveTaskDown}
+                        />
                     )}
             </ol>
         </div>
     )
 }
 
-export default ToDoList
+export default ToDoList;
