@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import ToDoItem from "./ToDoItem";
 
 function ToDoList() {
-    const [tasks, setTasks] = useState(["Позавтракать", "Принять душ", "Прогулка с собакой"]);
+    const [tasks, setTasks] = useState([
+        { text: "Позавтракать", completed: false },
+        { text: "Принять душ", completed: false },
+        { text: "Прогулка с собакой", completed: false }
+    ]);
     const [newTask, setNewTask] = useState();
 
     function handleInputChange(event) {
@@ -11,7 +15,7 @@ function ToDoList() {
 
     function addTask() {
         if (newTask.trim() !== "") {
-            setTasks(t => [...t, newTask]);
+            setTasks(t => [...t, { text: newTask, completed: false }]);
             setNewTask("");
         }
     }
@@ -37,6 +41,12 @@ function ToDoList() {
                 [updatedTasks[index + 1], updatedTasks[index]];
             setTasks(updatedTasks);
         }
+    }
+
+    function toggleComplete(index) {
+        const updatedTasks = [...tasks];
+        updatedTasks[index].completed = !updatedTasks[index].completed;
+        setTasks(updatedTasks);
     }
 
     return (
@@ -76,6 +86,7 @@ function ToDoList() {
                             onDelete={deleteTask}
                             onMoveUp={moveTaskUp}
                             onMoveDown={moveTaskDown}
+                            onToggle={toggleComplete}
                         />
                     )}
             </ol>
