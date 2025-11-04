@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ToDoItem from "./ToDoItem";
 
+const STORAGE_KEY = "tasks";
+
 function ToDoList() {
-    const [tasks, setTasks] = useState([
-        { text: "Позавтракать", completed: false },
-        { text: "Принять душ", completed: false },
-        { text: "Прогулка с собакой", completed: false }
-    ]);
-    const [newTask, setNewTask] = useState();
+    const [newTask, setNewTask] = useState("");
+    const [tasks, setTasks] = useState(() => {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : [];
+    });
+
+    useEffect(() => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    }, [tasks]);
 
     function handleInputChange(event) {
         setNewTask(event.target.value)
@@ -15,38 +20,48 @@ function ToDoList() {
 
     function addTask() {
         if (newTask.trim() !== "") {
-            setTasks(t => [...t, { text: newTask, completed: false }]);
+            setTasks(t => [...t, { text: newTask.trim(), completed: false }]);
             setNewTask("");
         }
     }
 
     function deleteTask(index) {
-        const updatedTasks = tasks.filter((_, i) => i !== index);
-        setTasks(updatedTasks);
+        setTasks((t) => t.filter((_, i) => i !== index));
     }
 
     function moveTaskUp(index) {
         if (index > 0) {
-            const updatedTasks = [...tasks];
-            [updatedTasks[index], updatedTasks[index - 1]] =
-                [updatedTasks[index - 1], updatedTasks[index]];
-            setTasks(updatedTasks);
+            setTasks((t) => {
+                const copy = [...t];
+                [copy[index], copy[index - 1]] = [copy[index - 1], copy[index]];
+                return copy;
+            });
         }
     }
 
     function moveTaskDown(index) {
         if (index < tasks.length - 1) {
-            const updatedTasks = [...tasks];
-            [updatedTasks[index], updatedTasks[index + 1]] =
-                [updatedTasks[index + 1], updatedTasks[index]];
-            setTasks(updatedTasks);
+            setTasks((t) => {
+                const copy = [...t];
+                [copy[index], copy[index + 1]] = [copy[index + 1], copy[index]];
+                return copy;
+            });
         }
     }
 
     function toggleComplete(index) {
-        const updatedTasks = [...tasks];
-        updatedTasks[index].completed = !updatedTasks[index].completed;
-        setTasks(updatedTasks);
+        setTasks((t) => {
+            const copy = [...t];
+            copy[index] = { ...copy[index], completed: !copy[index].completed };
+            return copy;
+        });
+    }
+
+    function clearAllTasks() {
+        if (window.confirm("Удалить все задачи?")) {
+            setTasks([]);
+            localStorage.removeItem(STORAGE_KEY);
+        }
     }
 
     return (
@@ -90,6 +105,16 @@ function ToDoList() {
                         />
                     )}
             </ol>
+
+            <div className="my-2">
+                <button
+                    className="btn btn-outline-danger"
+                    onClick={clearAllTasks}
+                    type="button"
+                >
+                    Очистить все задачи
+                </button>
+            </div>
         </div>
     )
 }
