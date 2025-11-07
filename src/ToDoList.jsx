@@ -10,6 +10,10 @@ function ToDoList() {
         return saved ? JSON.parse(saved) : [];
     });
 
+    const items = tasks.map((t, i) => ({ task: t, index: i }));
+    const activeItems = items.filter(x => !x.task.completed);
+    const doneItems = items.filter(x => x.task.completed);
+
     useEffect(() => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
     }, [tasks]);
@@ -20,7 +24,14 @@ function ToDoList() {
 
     function addTask() {
         if (newTask.trim() !== "") {
-            setTasks(t => [...t, { text: newTask.trim(), completed: false }]);
+            setTasks(t => [
+                ...t,
+                {
+                    text: newTask.trim(),
+                    completed: false,
+                    createdAt: new Date().toLocaleString()
+                }
+            ]);
             setNewTask("");
         }
     }
@@ -91,20 +102,53 @@ function ToDoList() {
                 </div>
             </div>
 
-            <ol className="list-group list-group-numbered align-items-center">
-                {
-                    tasks.map((task, index) =>
-                        <ToDoItem
-                            key={index}
-                            task={task}
-                            index={index}
-                            onDelete={deleteTask}
-                            onMoveUp={moveTaskUp}
-                            onMoveDown={moveTaskDown}
-                            onToggle={toggleComplete}
-                        />
-                    )}
-            </ol>
+            <div className="container">
+                <div className="row g-4">
+                    <div className="col-12 col-md-6">
+                        <h5 className="mb-3">Активные задачи
+                            <span className="badge bg-secondary ms-2">{activeItems.length}</span>
+                        </h5>
+                        <ol className="list-group list-group-numbered">
+                            {activeItems.length === 0 && (
+                                <li className="list-group-item text-muted">Нет активных задач</li>
+                            )}
+                            {activeItems.map(({ task, index }) => (
+                                <ToDoItem
+                                    key={index}
+                                    task={task}
+                                    index={index}
+                                    onDelete={deleteTask}
+                                    onMoveUp={moveTaskUp}
+                                    onMoveDown={moveTaskDown}
+                                    onToggle={toggleComplete}
+                                />
+                            ))}
+                        </ol>
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                        <h5 className="mb-3">Выполненные
+                            <span className="badge bg-success ms-2">{doneItems.length}</span>
+                        </h5>
+                        <ol className="list-group list-group-numbered">
+                            {doneItems.length === 0 && (
+                                <li className="list-group-item text-muted">Пока пусто</li>
+                            )}
+                            {doneItems.map(({ task, index }) => (
+                                <ToDoItem
+                                    key={index}
+                                    task={task}
+                                    index={index}
+                                    onDelete={deleteTask}
+                                    onMoveUp={moveTaskUp}
+                                    onMoveDown={moveTaskDown}
+                                    onToggle={toggleComplete}
+                                />
+                            ))}
+                        </ol>
+                    </div>
+                </div>
+            </div>
 
             <div className="my-2">
                 <button
