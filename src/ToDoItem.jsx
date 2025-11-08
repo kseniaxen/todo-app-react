@@ -6,7 +6,7 @@ function ToDoItem({ task, index, onDelete, onMoveUp, onMoveDown, onToggle }) {
             className={`list-group-item d-flex justify-content-between align-items-start bg-light gap-2 mb-2 border-0 ${task.completed ? "opacity-75" : ""
                 }`}
         >
-            {/* Левая часть: пусть растёт и переносит длинный текст */}
+            
             <div
                 className="d-flex flex-column flex-grow-1 text-start"
                 style={{ minWidth: 0 }}
@@ -32,7 +32,6 @@ function ToDoItem({ task, index, onDelete, onMoveUp, onMoveDown, onToggle }) {
                 </small>
             </div>
 
-            {/* Правая часть: кнопки не сжимаются */}
             <div className="d-flex gap-2 flex-shrink-0">
                 <button
                     type="button"

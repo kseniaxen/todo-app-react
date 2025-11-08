@@ -1,16 +1,56 @@
-# React + Vite
+# 📝 ToDo List на React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Простое ToDo-приложение, созданное на **React + Vite** с использованием **Bootstrap 5**.  
+Позволяет добавлять, удалять, перемещать задачи, отмечать их как выполненные и хранить всё в **LocalStorage**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Демо
 
-## React Compiler
+[Открыть приложение на GitHub Pages](https://kseniaxen.github.io/todo-app-react/)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Возможности
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Добавление новой задачи  
+- Отметка задачи как выполненной  
+- Перемещение задач вверх и вниз  
+- Удаление задач  
+- Отображение даты и времени создания  
+- Сохранение всех данных в **localStorage**  
+- Автоматическое восстановление после перезагрузки  
+- Очистка всех задач одной кнопкой  
+- Адаптивный интерфейс (Bootstrap 5)
+
+---
+
+## 🧰 Технологии
+
+- [React]
+- [Vite] 
+- [Bootstrap 5]
+- [gh-pages] (для деплоя на GitHub Pages)
+
+---
+
+## Установка и запуск
+
+```bash
+# Клонировать репозиторий
+git clone https://github.com/kseniaxen/todo-app-react
+
+# Перейти в папку проекта
+cd my-todo-app
+
+# Установить зависимости
+npm install
+
+# Запустить локально
+npm run dev
+
+# Собрать проект
+npm run build
+
+# Задеплоить на GitHub Pages
+npm run deploy
